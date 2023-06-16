@@ -43,4 +43,13 @@ public class PizzaController {
             return ResponseEntity.ok(this.pizzaService.save(pizza));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La Pizza no Existe!");
     }
+
+    @DeleteMapping("/{idPizza}")
+    public ResponseEntity<Void> delete(@PathVariable int idPizza){
+        if(this.pizzaService.exists(idPizza)){
+            this.pizzaService.delete(idPizza);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }
