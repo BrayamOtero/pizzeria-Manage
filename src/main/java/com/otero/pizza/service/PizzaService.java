@@ -3,8 +3,6 @@ package com.otero.pizza.service;
 import com.otero.pizza.persitence.entity.PizzaEntity;
 import com.otero.pizza.persitence.repositoy.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +27,14 @@ public class PizzaService {
 
     public PizzaEntity getByName(String name){
         return this.pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
+    }
+
+    public List<PizzaEntity> getWith(String ingredient){
+        return this.pizzaRepository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(ingredient);
+    }
+
+    public List<PizzaEntity> getWithout(String ingredient){
+        return this.pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
     }
 
     public PizzaEntity get(int idPizza){
