@@ -1,6 +1,7 @@
 package com.otero.pizza.service;
 
 import com.otero.pizza.persitence.entity.OrderEntity;
+import com.otero.pizza.persitence.proyection.OrderSummary;
 import com.otero.pizza.persitence.repositoy.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,8 @@ public class OrderService {
 
     public List<OrderEntity> getCustomersOrders(String idCustomers){
         return this.orderRepository.findCustomerOrders(idCustomers);
+    }
+    public OrderSummary getSummary(int orderId){
+        return this.orderRepository.findSummary(orderId);
     }
 }
