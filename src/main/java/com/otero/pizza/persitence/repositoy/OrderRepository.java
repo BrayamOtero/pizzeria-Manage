@@ -3,6 +3,7 @@ package com.otero.pizza.persitence.repositoy;
 import com.otero.pizza.persitence.entity.OrderEntity;
 import com.otero.pizza.persitence.proyection.OrderSummary;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -30,4 +31,9 @@ public interface OrderRepository extends ListCrudRepository<OrderEntity, Integer
             "         po.date, " +
             "         po.total", nativeQuery = true)
     OrderSummary findSummary(@Param("orderId") int idOrder);
+
+    @Procedure(value = "take_random_pizza_order", outputParameterName = "order_taken")
+    boolean saveRandomOrder(@Param("id_Customer") String idCustomer, @Param("method") String method);
+
+    List<OrderEntity> findAllByDateBetweenOrderByTotal();
 }
