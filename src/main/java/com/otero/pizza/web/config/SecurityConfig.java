@@ -22,7 +22,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors().and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers(HttpMethod.GET,"/api/pizza/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/pizza/**").hasAnyRole("ADMIN", "CUSTOMERS")
+                        .requestMatchers(HttpMethod.POST,"/api/pizza/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
+                        .requestMatchers("/api/orders/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT).denyAll()
                         .anyRequest()
                         .authenticated())
@@ -42,6 +45,12 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(admin);
+
+        UserDetails customer = User.builder()
+                .username("customer")
+                .password(passwordEncoder().encode("customer123"))
+                .roles("CUSTOMER")
+                .build();
+        return new InMemoryUserDetailsManager(admin, customer);
     }
 }
