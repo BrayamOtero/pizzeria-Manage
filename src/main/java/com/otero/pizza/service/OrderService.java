@@ -5,6 +5,7 @@ import com.otero.pizza.persitence.proyection.OrderSummary;
 import com.otero.pizza.persitence.repositoy.OrderRepository;
 import com.otero.pizza.service.dto.RandomOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +42,7 @@ public class OrderService {
         return this.orderRepository.findAllByMethodIn(methods);
     }
 
+    @Secured("ROLE_ADMIN")
     public List<OrderEntity> getCustomersOrders(String idCustomers){
         return this.orderRepository.findCustomerOrders(idCustomers);
     }
